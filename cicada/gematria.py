@@ -159,6 +159,9 @@ class Cipher:
     def gematria_sum_words(self):
         return [Runes(w).gematria_sum() for w in self.text.split()]
 
+    def gematria_sum_sentences(self):
+        return [Runes(w).gematria_sum() for w in self.text.split('.')]
+
     def gematria_sum_lines(self):
         return [Runes(w).gematria_sum() for w in self.text.splitlines()]
 
