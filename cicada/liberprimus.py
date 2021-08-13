@@ -26,7 +26,7 @@ class LiberPrimus:
 
     def strip_delims(self, input):
         input = input.replace("-", " ")
-        input = input.replace(".", " ")
+        # input = input.replace(".", " ")
         input = input.replace("&", "")
         input = input.replace("$", "")
         input = input.replace("§", "")
