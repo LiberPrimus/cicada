@@ -217,11 +217,33 @@ class Cipher:
                 continue
 
             else:
-                index = Runes('').alpha.index(c)
-                o += Runes('').alpha[(index - (primes[j] - 1)) % 29]
+                index = self.alpha.index(c)
+                o += self.alpha[(index - (primes[j] - 1)) % 29]
 
             j += 1
 
+        return Cipher(o, self.alpha)
+
+    # new rune = sum of the two previous runes % 29
+    def fib_stream(self):
+        o = ''
+        j = 0
+        t = self.text
+        for c in t:
+            if c not in self.alpha or j < 2:
+                o += c
+            else:
+                try:
+                    curr_index = self.alpha.index(c)
+                    concat_cipher = t[0:j].replace('.', '').replace(' ', '').replace('\n', '')
+                    prev_index = self.alpha.index(concat_cipher[-1:])
+                    prev_index2 = self.alpha.index(concat_cipher[-2:][0])
+                    new_rune = self.alpha[(prev_index + prev_index2) % 29]
+                    o += new_rune
+                except:
+                    o += c
+
+            j += 1
         return Cipher(o, self.alpha)
 
 
