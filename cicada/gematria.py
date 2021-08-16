@@ -246,6 +246,32 @@ class Cipher:
             j += 1
         return Cipher(o, self.alpha)
 
+    def mod60(self):
+        o = ''
+        j = 0
+        t = self.text
+        for c in t:
+            if c not in self.alpha:
+                o += c
+            else:
+                index = self.alpha.index(c)
+                new_rune = self.alpha[((index + 3301) % 60) % 29]
+                o += new_rune
+            j += 1
+        return Cipher(o, self.alpha)
+
+    def arbitrary(self, func):
+        o = ''
+        j = 0
+        for c in self.text:
+            if c not in self.alpha:
+                o += c
+            else:
+                index = self.alpha.index(c)
+                o += self.alpha[func(index, Gematria().get_primes(), j)]
+                j += 1
+        return Cipher(o, self.alpha)
+
 
 class Runes(Cipher):
     def __init__(self, text):
