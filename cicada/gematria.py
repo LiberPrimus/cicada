@@ -225,10 +225,11 @@ class Cipher:
         return Cipher(o, self.alpha)
 
     # new rune = sum of the two previous runes % 29
-    def fib_stream(self):
+    def fib_stream(self, with_primes=False):
         o = ''
         j = 0
         t = self.text
+        primes = Gematria().get_primes()
         for c in t:
             if c not in self.alpha or j < 2:
                 o += c
@@ -238,13 +239,19 @@ class Cipher:
                     concat_cipher = t[0:j].replace('.', '').replace(' ', '').replace('\n', '')
                     prev_index = self.alpha.index(concat_cipher[-1:])
                     prev_index2 = self.alpha.index(concat_cipher[-2:][0])
-                    new_rune = self.alpha[(prev_index + prev_index2) % 29]
+                    if with_primes:
+                        new_rune = self.alpha[(primes[prev_index] + primes[prev_index2]) % 29]
+                    else:
+                        new_rune = self.alpha[(prev_index + prev_index2) % 29]
                     o += new_rune
                 except:
                     o += c
 
             j += 1
         return Cipher(o, self.alpha)
+
+    def fib_prime_stream(self):
+        self.fib_stream(True)
 
     def mod60(self):
         o = ''
